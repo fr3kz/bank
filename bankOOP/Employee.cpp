@@ -5,7 +5,7 @@ Employee::Employee(bool is_admin_, bool is_staff_, int user_id_, std::string fir
 	:User(user_id_, first_name_, last_name_, email_, password_, phone_number_)
 {
 	is_admin = is_admin_;
-	is_staff_ = is_staff_;
+	is_staff = is_staff_;
 }
 
 void Employee::show_menu()

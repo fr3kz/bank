@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include "Database.h"
 
 class User
 {
@@ -14,5 +15,6 @@ protected:
 public:
 	User(int, std::string, std::string, std::string, std::string, int);
 	virtual void show_menu() = 0;
+	
 };
 

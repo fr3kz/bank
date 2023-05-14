@@ -1,5 +1,6 @@
 #include "User.h"
 #include <iostream>
+#include "Database.h"
 
 User::User(int user_id_, std::string first_name_, std::string last_name_, std::string email_, std::string password_, int phone_number_)
 {
