@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "User.h"
+#include "Customer.h"
 #include "Account.h"
 #include "mysql_connection.h"
 #include <cppconn/driver.h>
@@ -41,9 +42,9 @@ public:
 
     void select_all_Accounts_from_database()
     {
-        con->setSchema("users");
+        con->setSchema("test");
         stmt = con->createStatement();
-        res = stmt->executeQuery("SELECT * FROM klienci");
+        res = stmt->executeQuery("SELECT * FROM customers");
         while (res->next())
         {
             std::cout << res->getInt(1) << std::endl;
@@ -85,8 +86,99 @@ public:
         delete con;
     }
 
+    /**
+    * \brief Funkcja zwraca 0 jak znajdzie obiekt w bazie customers,1jak nie znajdzie
+    * \param user_id
+    * \return
+    */
     
+    int check_customer(int user_id)
+    {
+        std::string query = "SELECT * FROM customers WHERE user_id='" + std::to_string(user_id) + "'";
+        con->setSchema("test");
+        stmt = con->createStatement();
+        res = stmt->executeQuery(query);
 
+        int result = 0; // Zmienna przechowuj¹ca wynik
+
+        if (res->next())
+        {
+            // Znaleziono obiekt
+            result = 0;
+        }
+        else
+        {
+            result = 1;
+        }
+
+        delete res;
+        delete stmt;
+        delete con;
+
+        return result;
+    }
+
+
+    /**
+    * \brief Funkcja zwraca 0 jak znajdzie obiekt w bazie employee,1jak nie znajdzie
+    * \param user_id
+    * \return
+    */
+    int check_employe(int user_id)
+    {
+        std::string query = "SELECT * FROM employe WHERE user_id='" + std::to_string(user_id) + "'";
+        con->setSchema("test");
+        stmt = con->createStatement();
+        res = stmt->executeQuery(query);
+
+        int result = 0; // Zmienna przechowuj¹ca wynik
+
+        if (res->next())
+        {
+            // Znaleziono obiekt
+            result = 0;
+        }
+        else
+        {
+            result = 1;
+        }
+
+        delete res;
+        delete stmt;
+        delete con;
+
+        return result;
+    }
+
+    /**
+     * \brief Funkcja zwraca klase Customer po wpisaniu ID, zakladamy ze ID jest prawdziwe i istnieje
+     * \param user_id 
+     * \return 
+     */
+    Customer get_customer_data_by_id(int user_id)
+    {
+        std::string query = "SELECT * FROM customers WHERE user_id='" + std::to_string(user_id) + "'";
+        con->setSchema("test");
+        stmt = con->createStatement();
+        res = stmt->executeQuery(query);
+        while (res->next())
+        {
+            std::string firstname= res->getString("firstname");
+            std::string lastname = res->getString("lastname");
+            std::string email = res->getString("email");
+            std::string password = res->getString("password");
+            int phone_number = res->getInt("phone_number");
+
+            delete res;
+            delete stmt;
+            delete con;
+
+            // tutaj bedzie utworzenie obiektu customer i zwrocenie go
+            Customer* customer = new Customer(0, user_id, firstname, lastname, email, password, phone_number);
+            return *customer;
+        }
+
+    }
     
 };
 
