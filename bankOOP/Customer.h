@@ -2,20 +2,29 @@
 #include <iostream>
 #include "User.h"
 #include "Account.h"
+#include "Transfer.h"
 #include <vector>
 class Customer : public User // dziedziczy publicznie z User
 {
 private:
-	int account_id; //numer konta ale to bym przeniós³ do Account zeby konto mia³o swoj numer !!!!!!!
-
+	friend class Account;
+	friend class Transfer;
+	std::vector<Account*> user_accounts;
+	std::vector<Transfer*> transfers;
+	Account* used_account;
 public:
-	Customer(int, int, std::string, std::string, std::string, std::string, int);
+	Customer(int user_id, std::string, std::string, std::string, std::string, int, int);
 	virtual void show_menu() override; //funkcja wirtualna wyswietlaj¹ca interfejs dla danego typu uzytkownika
-	std::vector<Account*> user_acounts; // tablica przechowuj¹ca konta u¿ytkownika. Jak sie to do bazy danych pod³¹czy to bêdzie poprostu pobierac z bazy
-	void add_account_to_vector(Account* account)// funkcja dodaje konta to vectora
-	{
-		user_acounts.push_back(account);
-	}
-
+	int show_user_id(); //?
+	void set_Active();
+	std::string encrypt_password(std::string);
+	void create_user(User* customer);
+	void show_user_data();
+	void show_accounts();
+	void change_account();
+	// dodanie sprawdzenia czy istnieje konto o takim numerze
+	void transfer();
+	void add_new_account();
+	void show_transfer_history();
 };
 
